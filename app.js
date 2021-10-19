@@ -9,6 +9,9 @@ const { backendDeploy: { BACKEND_PORT }, httpStatusCodes, dbDeploy } = require('
 
 const { taskRoutes, userRoutes } = require('./routes');
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use('/api/tasks', taskRoutes);
 app.use('/api/users', userRoutes);
 
