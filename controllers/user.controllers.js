@@ -1,8 +1,9 @@
+const { log } = require('util');
 const { User } = require('../models');
 
-const { passwordService } = require('../services');
+const { emailService, passwordService } = require('../services');
 
-const { httpStatusCodes } = require('../config');
+const { httpStatusCodes, mailTemplateNames } = require('../config');
 
 module.exports = {
   postUser: (async (req, res, next) => {
@@ -12,6 +13,12 @@ module.exports = {
       const hashed = await passwordService.hash(password);
 
       const user = await User.create({ ...req.body, password: hashed });
+
+      await emailService.sendBroadcastMail(user.email, mailTemplateNames.WELCOME,
+        {
+          userName: user.firstName,
+          buttonLink: 'localhost:5000/'
+        });
 
       res.status(httpStatusCodes.Created).json(user);
     } catch (error) {

@@ -34,8 +34,10 @@ const sendBroadcastMail = async (email, templateName, context = {}) => {
   const buttonText = mailContentButtonTemplates[templateName];
   const headerLogo = mailHeaderLogoTemplatesEnum[templateName];
 
+  console.log(path.resolve(process.cwd(), 'services', 'email-service', 'templates', ejsFile));
+
   const html = await ejs
-    .renderFile(path.resolve(process.cwd(), 'email-service', 'templates', ejsFile),
+    .renderFile(path.resolve(process.cwd(), 'services', 'email-service', 'templates', ejsFile),
       {
         headerLogo,
         userName,
@@ -43,8 +45,6 @@ const sendBroadcastMail = async (email, templateName, context = {}) => {
         buttonText,
         buttonLink
       });
-
-  // console.log(html);
 
   return broadcastTransport.sendMail({
     from: 'Gorbas Mail Service',

@@ -1,4 +1,5 @@
 module.exports = {
+  httpStatusCodes: require('./httpStatusCodes'),
   mailCredentials: require('./mailCredentials'),
   mailHeaderLogoTemplatesEnum: require('./mailHeaderLogoTemplates.enum'),
   mailContentTemplatesEnum: require('./mailContentTemplates.enum'),
