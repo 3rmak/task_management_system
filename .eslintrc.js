@@ -15,7 +15,7 @@ module.exports = {
   rules: {
     'array-bracket-newline': [
       'error',
-      { minItems: 2 }
+      { minItems: 1 }
     ],
     'array-element-newline': [
       'error',
@@ -150,10 +150,14 @@ module.exports = {
     'wrap-iife': 'error',
     yoda: 'error',
   },
-  overrides: [{
-    files: ['**/*.test.js'],
-    env: {
-      jest: true,
-    },
-  }],
+  overrides: [
+    {
+      files: [
+        '**/*.test.js'
+      ],
+      env: {
+        jest: true,
+      },
+    }
+  ],
 };

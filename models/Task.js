@@ -23,6 +23,17 @@ const taskSchema = new Schema({
   dueDate: {
     type: Date,
     default: new Date()
+  },
+
+  status: {
+    type: Boolean,
+    default: true
+  },
+
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: databaseModelNames.USER,
+    required: true
   }
 }, { timestamps: true });
 

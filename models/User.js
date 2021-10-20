@@ -21,6 +21,13 @@ const userSchema = new Schema({
     required: true,
     trim: true,
     unique: true
+  },
+
+  password: {
+    type: String,
+    trim: true,
+    required: true,
+    select: false
   }
 }, { timestamps: true });
 

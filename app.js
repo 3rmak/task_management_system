@@ -7,11 +7,12 @@ require('dotenv').config();
 
 const { backendDeploy: { BACKEND_PORT }, httpStatusCodes, dbDeploy } = require('./config');
 
-const { taskRoutes, userRoutes } = require('./routes');
+const { authRoutes, taskRoutes, userRoutes } = require('./routes');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/users', userRoutes);
 

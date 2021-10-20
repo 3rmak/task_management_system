@@ -2,9 +2,15 @@ const router = require('express').Router();
 
 const { userControllers } = require('../controllers');
 
+const { isReqBodyValid } = require('../middlewares');
+
+const { user } = require('../validators');
+
 router.get('/', userControllers.getAllUsers);
 
-router.post('/', userControllers.postUser);
+router.post('/', [
+  isReqBodyValid(user.userCreateValidator)
+], userControllers.postUser);
 
 router.get('/:userId', userControllers.getUserById);
 

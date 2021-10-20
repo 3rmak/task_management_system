@@ -1,12 +1,17 @@
 const { User } = require('../models');
 
+const { passwordService } = require('../services');
+
 const { httpStatusCodes } = require('../config');
 
 module.exports = {
   postUser: (async (req, res, next) => {
     try {
-      const user = req.body;
-      await User.create(user);
+      const { password } = req.body;
+
+      const hashed = await passwordService.hash(password);
+
+      const user = await User.create({ ...req.body, password: hashed });
 
       res.status(httpStatusCodes.Created).json(user);
     } catch (error) {
