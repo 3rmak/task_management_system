@@ -1,5 +1,7 @@
+const cors = require('cors');
 const express = require('express');
 const mongoose = require('mongoose');
+const morgan = require('morgan');
 
 const app = express();
 
@@ -11,6 +13,11 @@ const { authRoutes, taskRoutes, userRoutes } = require('./routes');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(cors());
+if (process.env.ENV === 'dev') {
+  app.use(morgan('dev'));
+}
 
 app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
@@ -25,9 +32,9 @@ mongoose.connect(dbDeploy.MONGO_URI, {
   useUnifiedTopology: true,
 })
   .then(() => console.log('database connected successfully'))
-  .catch((e) => console.log('Error', e.message));
+  .catch((e) => console.log('Error', e));
 
-app.listen(BACKEND_PORT, () => {
+app.listen(BACKEND_PORT, '0.0.0.0', () => {
   console.log(`server started successfully on port ${BACKEND_PORT}`);
 });
 

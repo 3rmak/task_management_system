@@ -6,10 +6,10 @@ const { authMiddleware, isReqBodyValid } = require('../middlewares');
 
 const { auth } = require('../validators');
 
-router.post('/signup', [
-  isReqBodyValid(auth.signUpValidator),
+router.post('/signin', [
+  isReqBodyValid(auth.signInValidator),
   authMiddleware.isCredentialsCorrect
-], authController.signUp);
+], authController.signIn);
 
 router.post('/signout', [
   isReqBodyValid(auth.signOutValidator),

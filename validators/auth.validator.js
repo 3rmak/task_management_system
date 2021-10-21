@@ -2,7 +2,7 @@ const Joi = require('joi');
 
 const { regex } = require('../config');
 
-const signUpValidator = Joi.object({
+const signInValidator = Joi.object({
   email: Joi.string()
     .regex(regex.EMAIL_REGEX)
     .trim()
@@ -38,7 +38,7 @@ const renewTokensByRefresh = Joi.object({
 });
 
 module.exports = {
-  signUpValidator,
+  signInValidator,
   signOutValidator,
   renewTokensByRefresh
 };

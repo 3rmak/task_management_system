@@ -28,6 +28,7 @@ module.exports = {
 
   getAllUsers: (async (req, res, next) => {
     try {
+      // console.log('here');
       const users = await User.find();
 
       res.json(users);

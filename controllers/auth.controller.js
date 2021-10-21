@@ -4,7 +4,7 @@ const { tokenService } = require('../services');
 const { httpStatusCodes } = require('../config');
 
 module.exports = {
-  signUp: (async (req, res, next) => {
+  signIn: (async (req, res, next) => {
     try {
       const { id } = req.locals.user;
       const {
