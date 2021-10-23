@@ -1,7 +1,7 @@
 const { OAuth } = require('../models');
 
 const { tokenService } = require('../services');
-const { httpStatusCodes } = require('../config');
+const { reqHeaderNames } = require('../config');
 
 module.exports = {
   signIn: (async (req, res, next) => {
@@ -26,11 +26,11 @@ module.exports = {
 
   signOut: (async (req, res, next) => {
     try {
-      const { token } = req.locals;
+      const tokenPayload = req.get(reqHeaderNames.AUTHORIZATION);
 
-      await OAuth.findOneAndRemove(token);
+      await OAuth.findOneAndRemove({ access_token: tokenPayload });
 
-      res.status(httpStatusCodes.No_Content);
+      res.json({ message: 'Done' });
     } catch (e) {
       next(e);
     }
@@ -40,20 +40,14 @@ module.exports = {
     try {
       const { token } = req.locals;
 
-      const { access_token, refresh_token } = tokenService.createUserTokens();
+      const { access_token } = tokenService.createUserTokens();
 
       const item = await OAuth.findOneAndUpdate({ refresh_token: token.refresh_token },
         {
-          access_token,
-          refresh_token
-        });
+          access_token
+        }, { new: true });
 
-      res.json({
-        message: 'Tokens refreshed',
-        access_token,
-        refresh_token,
-        user: item.user
-      });
+      res.json(item);
     } catch (error) {
       next(error);
     }

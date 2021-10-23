@@ -23,22 +23,6 @@ const signInValidator = Joi.object({
     .required()
 });
 
-const signOutValidator = Joi.object({
-  access_token: Joi.string()
-    .trim()
-    .regex(regex.JWT_REGEX)
-    .required()
-});
-
-const renewTokensByRefresh = Joi.object({
-  refresh_token: Joi.string()
-    .trim()
-    .regex(regex.JWT_REGEX)
-    .required()
-});
-
 module.exports = {
-  signInValidator,
-  signOutValidator,
-  renewTokensByRefresh
+  signInValidator
 };

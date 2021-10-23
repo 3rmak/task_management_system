@@ -31,13 +31,13 @@ module.exports = {
     };
   },
 
-  verifyUserToken: (token, tokenType = 'active') => {
+  verifyUserToken: (token, tokenType = 'access') => {
     try {
       const secret = tokenType === 'access' ? ACCESS_SECRET_KEY : REFRESH_SECRET_KEY;
 
       jwt.verify(token, secret);
     } catch (error) {
-      throw new ErrorHandler(httpStatusCodes, 'Invalid token');
+      throw new ErrorHandler(httpStatusCodes.Forbidden, 'Expired');
     }
   }
 };

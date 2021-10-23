@@ -1,6 +1,6 @@
 const { OAuth, User } = require('../models');
 
-const { passwordService: { isPassMatch } } = require('../services');
+const { passwordService: { isPassMatch }, tokenService } = require('../services');
 
 const ErrorHandler = require('../error/ErrorHandler');
 
@@ -31,7 +31,7 @@ module.exports = {
     }
   }),
 
-  isTokenExist: ((token_type = 'access') => (async (req, res, next) => {
+  isTokenValid: ((token_type = 'access') => (async (req, res, next) => {
     try {
       const tokenPayload = req.get(reqHeaderNames.AUTHORIZATION);
 
@@ -40,11 +40,14 @@ module.exports = {
       }
 
       const type = token_type === 'access' ? 'access_token' : 'refresh_token';
+
       const token = await OAuth.findOne({ [type]: tokenPayload });
 
       if (!token) {
         throw new ErrorHandler(httpStatusCodes.Unauthorized, 'Bad token');
       }
+
+      await tokenService.verifyUserToken(tokenPayload, token_type);
 
       req.locals = {
         ...req.locals,

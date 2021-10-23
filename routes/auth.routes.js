@@ -11,14 +11,10 @@ router.post('/signin', [
   authMiddleware.isCredentialsCorrect
 ], authController.signIn);
 
-router.post('/signout', [
-  isReqBodyValid(auth.signOutValidator),
-  authMiddleware.isTokenExist()
-], authController.signOut);
+router.post('/signout', authController.signOut);
 
 router.post('/refresh', [
-  isReqBodyValid(auth.renewTokensByRefresh),
-  authMiddleware.isTokenExist('refresh')
+  authMiddleware.isTokenValid('refresh')
 ], authController.renewTokensByRefresh);
 
 module.exports = router;

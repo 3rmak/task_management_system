@@ -7,11 +7,11 @@ const { authMiddleware, userMiddleware, isReqBodyValid } = require('../middlewar
 const { task } = require('../validators');
 
 router.use('/', [
-  authMiddleware.isTokenExist(),
+  authMiddleware.isTokenValid(),
   userMiddleware.isUserExist
 ]);
 router.use('/:userId', [
-  authMiddleware.isTokenExist(),
+  authMiddleware.isTokenValid(),
   userMiddleware.isUserExist
 ]);
 

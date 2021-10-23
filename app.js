@@ -11,10 +11,10 @@ const { backendDeploy: { BACKEND_PORT }, httpStatusCodes, dbDeploy } = require('
 
 const { authRoutes, taskRoutes, userRoutes } = require('./routes');
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(cors());
 if (process.env.ENV === 'dev') {
   app.use(morgan('dev'));
 }
