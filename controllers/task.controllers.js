@@ -50,7 +50,7 @@ module.exports = {
       const { taskId } = req.params;
       const editTask = req.body;
 
-      const task = await Task.findOne({ _id: taskId, owner: user._id }, { ...editTask }, { new: true });
+      const task = await Task.findOneAndUpdate({ _id: taskId, owner: user._id }, { ...editTask }, { new: true });
 
       if (!task) {
         throw new ErrorHandler(httpStatusCodes.Forbidden, 'No such task for this user');
