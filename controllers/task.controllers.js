@@ -9,9 +9,9 @@ module.exports = {
     try {
       const task = { ...req.body };
       const { user } = req.locals;
-      await Task.create({ ...task, owner: user._id });
+      const dbUser = await Task.create({ ...task, owner: user._id });
 
-      res.status(httpStatusCodes.Created);
+      res.status(httpStatusCodes.Created).json(dbUser);
     } catch (error) {
       next(error);
     }

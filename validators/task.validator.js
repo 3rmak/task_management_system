@@ -2,6 +2,8 @@ const Joi = require('joi');
 
 const { taskPriority } = require('../config');
 
+const currentDate = (new Date().toLocaleDateString()).replaceAll('.', '-');
+
 const taskCreateValidator = Joi.object({
   title: Joi.string()
     .trim()
@@ -14,11 +16,12 @@ const taskCreateValidator = Joi.object({
     .required(),
 
   priority: Joi.number()
-    .allow(...Object.values(taskPriority))
-    .default(taskPriority.NEITHER)
+    .min(taskPriority.NEITHER)
+    .max(taskPriority.EXTRA_IMPORTANT)
     .required(),
 
   dueDate: Joi.date()
+    .min(currentDate)
 });
 
 const taskEditValidator = Joi.object({
@@ -31,9 +34,11 @@ const taskEditValidator = Joi.object({
   description: Joi.string(),
 
   priority: Joi.number()
-    .allow(...Object.values(taskPriority)),
+    .min(taskPriority.NEITHER)
+    .max(taskPriority.EXTRA_IMPORTANT),
 
-  dueDate: Joi.date(),
+  dueDate: Joi.date()
+    .min(currentDate),
 
   status: Joi.boolean()
 });
