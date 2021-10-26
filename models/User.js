@@ -1,4 +1,7 @@
 const { Schema, model } = require('mongoose');
+
+const { user } = require('../helpers');
+
 const { databaseModelNames } = require('../config');
 
 const userSchema = new Schema({
@@ -35,6 +38,10 @@ const userSchema = new Schema({
     default: false,
     select: false
   }
-}, { timestamps: true });
+}, { timestamps: true, toJSON: { virtuals: true } });
+
+userSchema.virtual('fullName').get(function() {
+  return user.nameNormalizator(`${this.firstName} ${this.lastName}`);
+});
 
 module.exports = model(databaseModelNames.USER, userSchema);
