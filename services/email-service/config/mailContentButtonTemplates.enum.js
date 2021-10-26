@@ -1,5 +1,5 @@
-const { WELCOME } = require('./mailNameTemplates.enum');
+const { MAIL_REG_SUBMIT_TEMPLATE } = require('./mailNameTemplates.enum');
 
 module.exports = {
-  [WELCOME]: 'Check what\'s new on Task Management System',
+  [MAIL_REG_SUBMIT_TEMPLATE]: 'Thank you for registration. Press the button to activate your profile',
 };

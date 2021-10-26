@@ -1,3 +1,3 @@
 module.exports = {
-  WELCOME: process.env.MAIL_WELCOME_TEMPLATE || 'word',
+  MAIL_REG_SUBMIT_TEMPLATE: process.env.MAIL_REG_SUBMIT_TEMPLATE || 'word',
 };

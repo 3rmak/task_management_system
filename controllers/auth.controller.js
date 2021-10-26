@@ -1,7 +1,9 @@
-const { OAuth } = require('../models');
+const { OAuth, User } = require('../models');
+
+const ErrorHandler = require('../error/ErrorHandler');
 
 const { tokenService } = require('../services');
-const { reqHeaderNames } = require('../config');
+const { reqHeaderNames, httpStatusCodes } = require('../config');
 
 module.exports = {
   signIn: (async (req, res, next) => {
@@ -48,6 +50,22 @@ module.exports = {
         }, { new: true });
 
       res.json(item);
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  activateUser: async (req, res, next) => {
+    try {
+      const { email } = req[reqHeaderNames.QUERY];
+
+      const user = await User.findOneAndUpdate({ email }, { isActive: true }, { new: true });
+
+      if (!user) {
+        throw new ErrorHandler(httpStatusCodes.Bad_Request, 'No user with such email. Try to sign up');
+      }
+
+      res.status(httpStatusCodes.Accepted).redirect('https://google.com');
     } catch (error) {
       next(error);
     }

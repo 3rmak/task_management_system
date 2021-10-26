@@ -1,5 +1,5 @@
-const { WELCOME } = require('./mailNameTemplates.enum');
+const { MAIL_REG_SUBMIT_TEMPLATE } = require('./mailNameTemplates.enum');
 
 module.exports = {
-  [WELCOME]: 'Gorbas Service | Welcome',
+  [MAIL_REG_SUBMIT_TEMPLATE]: 'Gorbas Service | Submit registration',
 };

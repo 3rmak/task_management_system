@@ -13,6 +13,8 @@ router.post('/signin', [
 
 router.post('/signout', authController.signOut);
 
+router.get('/activate', authController.activateUser);
+
 router.post('/refresh', [
   authMiddleware.isTokenValid('refresh')
 ], authController.renewTokensByRefresh);

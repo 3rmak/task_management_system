@@ -1,23 +1,31 @@
-const { log } = require('util');
-const { User } = require('../models');
+const path = require('path');
+
+const { Task, User } = require('../models');
 
 const { emailService, passwordService } = require('../services');
 
-const { httpStatusCodes, mailTemplateNames } = require('../config');
+const { backendDeploy, httpStatusCodes, mailTemplateNames } = require('../config');
 
 module.exports = {
   postUser: (async (req, res, next) => {
     try {
-      const { password } = req.body;
+      const { email, password } = req.body;
 
       const hashed = await passwordService.hash(password);
 
       const user = await User.create({ ...req.body, password: hashed });
 
-      await emailService.sendBroadcastMail(user.email, mailTemplateNames.WELCOME,
+      const buttonLink = path.join(
+        `${backendDeploy.BACKEND_IP_ADDRESS}:${backendDeploy.BACKEND_PORT}`,
+        'api',
+        'auth',
+        'activate',
+        `?email=${email}`
+      );
+      await emailService.sendBroadcastMail(user.email, mailTemplateNames.MAIL_REG_SUBMIT_TEMPLATE,
         {
           userName: user.firstName,
-          buttonLink: 'localhost:5000/'
+          buttonLink
         });
 
       res.status(httpStatusCodes.Created).json(user);
@@ -65,6 +73,8 @@ module.exports = {
   deleteUserById: (async (req, res, next) => {
     try {
       const { userId } = req.params;
+
+      await Task.deleteMany({ owner: userId });
 
       const user = await User.findByIdAndDelete(userId);
 

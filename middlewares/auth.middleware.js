@@ -11,10 +11,14 @@ module.exports = {
     try {
       const { email, password } = req.body;
 
-      const user = await User.findOne({ email }).select('+password');
+      const user = await User.findOne({ email }).select('+password +isActive');
 
       if (!user) {
         throw new ErrorHandler(httpStatusCodes.Unauthorized, 'Bad credentials');
+      }
+
+      if (!user.isActive) {
+        throw new ErrorHandler(httpStatusCodes.Unauthorized, 'User is not activated. Check your mailbox');
       }
       const hashedPass = user.password;
 

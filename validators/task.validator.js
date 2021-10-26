@@ -2,7 +2,7 @@ const Joi = require('joi');
 
 const { taskPriority } = require('../config');
 
-const currentDate = (new Date().toLocaleDateString()).replaceAll('.', '-');
+const currentDate = (new Date().toLocaleDateString()).replace('.', '-');
 
 const taskCreateValidator = Joi.object({
   title: Joi.string()

@@ -8,7 +8,9 @@ const { user } = require('../validators');
 
 router.get('/', userControllers.getAllUsers);
 
-router.post('/', [isReqBodyValid(user.userCreateValidator)], userControllers.postUser);
+router.post('/', [
+  isReqBodyValid(user.userCreateValidator)
+], userControllers.postUser);
 
 router.get('/:userId', userControllers.getUserById);
 
