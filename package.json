@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prod": "pm2 kill && pm2 start app.js --name back",
     "dev": "supervisor app.js",
     "test": "jest"
   },
