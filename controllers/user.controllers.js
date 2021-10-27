@@ -22,15 +22,11 @@ module.exports = {
         'activate',
         `?email=${email}`
       );
-      const sendEmail = await emailService.sendBroadcastMail(user.email, mailTemplateNames.MAIL_REG_SUBMIT_TEMPLATE,
+      await emailService.sendBroadcastMail(user.email, mailTemplateNames.MAIL_REG_SUBMIT_TEMPLATE,
         {
           userName: user.firstName,
           buttonLink
         });
-
-      if (!sendEmail) {
-        await User.findByIdAndDelete(user._id);
-      }
 
       res.status(httpStatusCodes.Created).json(user);
     } catch (error) {
