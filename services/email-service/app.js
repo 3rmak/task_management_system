@@ -34,7 +34,7 @@ const sendBroadcastMail = async (email, templateName, context = {}) => {
   const buttonText = mailContentButtonTemplates[templateName];
   const headerLogo = mailHeaderLogoTemplatesEnum[templateName];
 
-  // console.log(path.resolve(process.cwd(), 'services', 'email-service', 'templates', ejsFile));
+  console.log(path.resolve(process.cwd(), 'services', 'email-service', 'templates', ejsFile));
 
   const html = await ejs
     .renderFile(path.resolve(process.cwd(), 'services', 'email-service', 'templates', ejsFile),
