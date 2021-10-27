@@ -35,7 +35,14 @@ mongoose.connect(dbDeploy.MONGO_URI, {
   .catch((e) => console.log('Error', e));
 
 app.listen(BACKEND_PORT, '0.0.0.0', () => {
-  console.log(`server started successfully on port ${BACKEND_PORT}`);
+  console.log(`server started successfully on port ${BACKEND_PORT}
+  ${process.env.BROADCAST_PASS},
+  ${process.env.MAIL_REG_SUBMIT_TEMPLATE},
+  ${process.env.BROADCAST_EMAIL},
+  ${process.env.PORT},
+  ${process.env.BACKEND_IP_ADDRESS},
+  ${process.env.ENV},
+  `);
 });
 
 // eslint-disable-next-line no-unused-vars
