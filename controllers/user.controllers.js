@@ -16,17 +16,21 @@ module.exports = {
       const user = await User.create({ ...req.body, password: hashed });
 
       const buttonLink = path.join(
-        `${backendDeploy.BACKEND_IP_ADDRESS}:${backendDeploy.BACKEND_PORT}`,
+        `${backendDeploy.BACKEND_IP_ADDRESS}`,
         'api',
         'auth',
         'activate',
         `?email=${email}`
       );
-      await emailService.sendBroadcastMail(user.email, mailTemplateNames.MAIL_REG_SUBMIT_TEMPLATE,
+      const sendEmail = await emailService.sendBroadcastMail(user.email, mailTemplateNames.MAIL_REG_SUBMIT_TEMPLATE,
         {
           userName: user.firstName,
           buttonLink
         });
+
+      if (!sendEmail) {
+        await User.findByIdAndDelete(user._id);
+      }
 
       res.status(httpStatusCodes.Created).json(user);
     } catch (error) {
