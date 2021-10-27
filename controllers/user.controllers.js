@@ -13,7 +13,7 @@ module.exports = {
 
       const hashed = await passwordService.hash(password);
 
-      const user = await User.create({ ...req.body, password: hashed });
+      const user = await User.create({ ...req.body, password: hashed, isActive: false });
 
       const buttonLink = path.join(
         `${backendDeploy.BACKEND_IP_ADDRESS}`,
